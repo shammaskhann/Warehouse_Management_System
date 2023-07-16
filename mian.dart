@@ -1,13 +1,14 @@
 // WareHouse Mangement System
 import 'dart:io';
 
-List Employees = [];
+List Employees = []; //List will be used to store all the employees(Maps)
 Map Employee = {};
 void main() {
   MainMenu();
 }
 
-MainMenu() {
+MainMenu() //lOGIN MENU
+{
   print("1) Employee Management"); //Admin
   print("2) Product Management");
   print("3) Quit");
@@ -24,7 +25,8 @@ MainMenu() {
   }
 }
 
-EmployeeManagement() {
+EmployeeManagement() //ADMIN LOGIN + CRUD Menu
+{
   //Login
   print("========ADMIN LOGIN========");
   print("Enter Username");
@@ -77,13 +79,65 @@ AddEmployee() {
     "age": age,
     "salary": salary,
     "designation": designation,
-    "password": password,
+    "password": password
   };
   Employees.add(Employee);
   print("Employee Added Successfully");
   MainMenu();
 }
 
-UpdateEmployee() {}
-DeleteEmployee() {}
-ViewEmployee() {}
+UpdateEmployee() {
+  print("Enter Employee Name");
+  String name = stdin.readLineSync()!;
+  for (int i = 0; i < Employees.length; i++) {
+    if (Employees[i]["name"] == name) {
+      print("Enter Employee Name");
+      String name = stdin.readLineSync()!;
+      print("Enter Employee Age");
+      int age = int.parse(stdin.readLineSync()!);
+      print("Enter Employee Salary");
+      double salary = double.parse(stdin.readLineSync()!);
+      print("Enter Employee Designation");
+      String designation = stdin.readLineSync()!;
+      print("Enter Employee Password (Must be 8 characters long)");
+      String password = stdin.readLineSync()!;
+      if (password.length == 8) {
+        print("Password Set Successfully");
+      } else {
+        print("Password Must be 8 characters long");
+        AddEmployee();
+      }
+      Employee = {
+        "name": name,
+        "age": age,
+        "salary": salary,
+        "designation": designation,
+        "password": password
+      };
+      Employees[i] = Employee;
+      print("Employee Updated Successfully");
+      MainMenu();
+    }
+  }
+  print("Employee Not Found");
+  MainMenu();
+}
+
+DeleteEmployee() {
+  print("Enter Employee Name");
+  String name = stdin.readLineSync()!;
+  for (int i = 0; i < Employees.length; i++) {
+    if (Employees[i]["name"] == name) {
+      Employees.removeAt(i);
+      print("Employee Deleted Successfully");
+      MainMenu();
+    }
+  }
+  print("Employee Not Found");
+  MainMenu();
+}
+
+ViewEmployee() {
+  print(Employees);
+  MainMenu();
+}
