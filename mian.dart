@@ -1,143 +1,58 @@
 // WareHouse Mangement System
 import 'dart:io';
+import 'EmployeeManagement.dart';
+import 'ProductManagement.dart';
 
+int attempt = 0;
 List Employees = []; //List will be used to store all the employees(Maps)
 Map Employee = {};
 void main() {
-  MainMenu();
+  Map Employee1 = {
+    "id": 1001,
+    "name": "Shammas Khan",
+    "age": 19,
+    "salary": 5000,
+    "designation": "Manager",
+    "password": "Shammas0312"
+  };
+  Map Employee2 = {
+    "id": 1002,
+    "name": "Hammad Khan",
+    "age": 19,
+    "salary": 5000,
+    "designation": "Worker",
+    "password": "Hammad0312"
+  };
+  Employees.add(Employee1);
+  do {
+    MainMenu();
+  } while (true);
 }
 
 MainMenu() //lOGIN MENU
 {
+  print("========WAREHOUSE MANAGEMENT SYSTEM========");
   print("1) Employee Management"); //Admin
+  print("- - - - - - - - - - - -");
   print("2) Product Management");
+  print("- - - - - - - - - - - -");
   print("3) Quit");
+  print("- - - - - - - - - - - -");
+  stdout.write("Enter Input: ");
   int choice = int.parse(stdin.readLineSync()!);
   if (choice == 1) {
-    EmployeeManagement(); //Admin
+    EmployeeManagement em = new EmployeeManagement(Employees);
+    em.EmployeeManagementLogin();
+    Employees = em.getEmployees();
   } else if (choice == 2) {
-    ProductManagement();
+    ProductManagement pm = new ProductManagement(Employees);
+    pm.ProductManagementLogin();
   } else if (choice == 3) {
     exit(0);
   } else {
+    print("- - - - - - - - - - - -");
     print("Invalid Choice");
+    print("- - - - - - - - - - - -");
     MainMenu();
   }
-}
-
-EmployeeManagement() //ADMIN LOGIN + CRUD Menu
-{
-  //Login
-  print("========ADMIN LOGIN========");
-  print("Enter Username");
-  String username = stdin.readLineSync()!;
-  print("Enter Password");
-  String password = stdin.readLineSync()!;
-  if (username == "admin" && password == "admin") {
-    print("Login Successfull");
-    print("1) Add Employee");
-    print("2) View Employee");
-    print("3) Update Employee");
-    print("4) Delete Employee");
-    print("5) Back");
-    int choice = int.parse(stdin.readLineSync()!);
-    choice == 1
-        ? AddEmployee()
-        : choice == 2
-            ? ViewEmployee()
-            : choice == 3
-                ? UpdateEmployee()
-                : choice == 4
-                    ? DeleteEmployee()
-                    : choice == 5
-                        ? MainMenu() //Turnery Operator Substitue for if else(Single line block of code)
-                        : print("Invalid Choice");
-    MainMenu();
-  }
-}
-
-ProductManagement() {}
-AddEmployee() {
-  print("Enter Employee Name");
-  String name = stdin.readLineSync()!;
-  print("Enter Employee Age");
-  int age = int.parse(stdin.readLineSync()!);
-  print("Enter Employee Salary");
-  double salary = double.parse(stdin.readLineSync()!);
-  print("Enter Employee Designation");
-  String designation = stdin.readLineSync()!;
-  print("Enter Employee Password (Must be 8 characters long)");
-  String password = stdin.readLineSync()!;
-  if (password.length == 8) {
-    print("Password Set Successfully");
-  } else {
-    print("Password Must be 8 characters long");
-    AddEmployee();
-  }
-  Employee = {
-    "name": name,
-    "age": age,
-    "salary": salary,
-    "designation": designation,
-    "password": password
-  };
-  Employees.add(Employee);
-  print("Employee Added Successfully");
-  MainMenu();
-}
-
-UpdateEmployee() {
-  print("Enter Employee Name");
-  String name = stdin.readLineSync()!;
-  for (int i = 0; i < Employees.length; i++) {
-    if (Employees[i]["name"] == name) {
-      print("Enter Employee Name");
-      String name = stdin.readLineSync()!;
-      print("Enter Employee Age");
-      int age = int.parse(stdin.readLineSync()!);
-      print("Enter Employee Salary");
-      double salary = double.parse(stdin.readLineSync()!);
-      print("Enter Employee Designation");
-      String designation = stdin.readLineSync()!;
-      print("Enter Employee Password (Must be 8 characters long)");
-      String password = stdin.readLineSync()!;
-      if (password.length == 8) {
-        print("Password Set Successfully");
-      } else {
-        print("Password Must be 8 characters long");
-        AddEmployee();
-      }
-      Employee = {
-        "name": name,
-        "age": age,
-        "salary": salary,
-        "designation": designation,
-        "password": password
-      };
-      Employees[i] = Employee;
-      print("Employee Updated Successfully");
-      MainMenu();
-    }
-  }
-  print("Employee Not Found");
-  MainMenu();
-}
-
-DeleteEmployee() {
-  print("Enter Employee Name");
-  String name = stdin.readLineSync()!;
-  for (int i = 0; i < Employees.length; i++) {
-    if (Employees[i]["name"] == name) {
-      Employees.removeAt(i);
-      print("Employee Deleted Successfully");
-      MainMenu();
-    }
-  }
-  print("Employee Not Found");
-  MainMenu();
-}
-
-ViewEmployee() {
-  print(Employees);
-  MainMenu();
 }
