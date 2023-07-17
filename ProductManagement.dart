@@ -6,36 +6,51 @@ class ProductManagement {
   Map product = {};
   int attempt = 0;
   ProductManagement(List Employees) {
-    this.Employees = Employees;
+    this.Employees = Employees; // initializing the some products for testing
+    Map product1 = {
+      "name": "Asus Rog Gtx 1080",
+      "price": 45000,
+      "quantity": 50
+    };
+    Map product2 = {"name": "Gigabyte 6500xt", "price": 35000, "quantity": 100};
+    Products.add(product1);
+    Products.add(product2);
   }
   ProductManagementLogin() {
+    bool isLoginCredentialTrue = false;
+    bool isAccessable = false;
     if (attempt < 4) {
       //Login
       print("========Inventory LOGIN========");
-      stdout.write("Enter Name: ");
-      String name = stdin.readLineSync()!;
+      stdout.write("Enter ID: ");
+      int id = int.parse(stdin.readLineSync()!);
       stdout.write("Enter Password: ");
       String password = stdin.readLineSync()!;
       attempt++;
       //Only Manager and Supervisor can access the Product Management with their Passowrd and name set by ADMIN in List Employees
       for (int i = 0; i < Employees.length; i++) {
-        if (Employees[i]["name"] == name &&
-            Employees[i]["password"] == password &&
-            (Employees[i]["designation"] == "Manager" ||
-                Employees[i]["designation"] == "Supervisor")) {
-          print("Login Successfull");
-          print("=> Welcome ${Employees[i]["name"]}");
-          ProductManagementMenu();
-        } else {
-          print("Invalid Username or Password");
-          print("Returning to Main Menu");
-          print("- - - - - - - - - - - - ");
+        if (Employees[i]["id"] == id && Employees[i]["password"] == password) {
+          isLoginCredentialTrue = true;
+          if (Employees[i]["designation"] == "Manager" ||
+              Employees[i]["designation"] == "Supervisor") {
+            isAccessable = true;
+            print("Login Successfull");
+            print("=> Welcome ${Employees[i]["name"]}");
+            ProductManagementMenu();
+          }
         }
       }
     } else {
       print("Too many attempts");
       print("Exiting...");
       exit(0);
+    }
+    if (isLoginCredentialTrue == false) {
+      print("Invalid Username or Password");
+    }
+    if (isAccessable == false) {
+      print("=> Note:");
+      print("Workers are not allowed to access this menu");
     }
   }
 
@@ -108,6 +123,7 @@ class ProductManagement {
       print("Quantity: ${Products[i]["quantity"]}");
       print("====================================");
     }
+    ProductManagementMenu();
   }
 
   UpdateProduct() {

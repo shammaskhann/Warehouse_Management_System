@@ -196,7 +196,7 @@ class EmployeeManagement {
         };
         Employees[i] = Employee;
         print("Employee Updated Successfully");
-        MainMenu();
+        EmployeeManagementMenu();
       }
     }
     print("Employee Not Found");
@@ -214,7 +214,7 @@ class EmployeeManagement {
         : choice == 2
             ? DeleteEmployeeByName()
             : choice == 3
-                ? MainMenu()
+                ? EmployeeManagementMenu()
                 : print("Invalid Choice");
   }
 
@@ -233,7 +233,7 @@ class EmployeeManagement {
     if (!isFound) {
       print("Employee Not Found");
       print("Returning to Main Menu");
-      MainMenu();
+      EmployeeManagementMenu();
     }
   }
 
@@ -252,7 +252,7 @@ class EmployeeManagement {
     if (!isFound) {
       print("Employee Not Found");
       print("Returning to Main Menu");
-      MainMenu();
+      EmployeeManagementMenu();
     }
   }
 
@@ -261,7 +261,8 @@ class EmployeeManagement {
     print("1) View by ID");
     print("2) View by Name");
     print("3) View by Designation");
-    print("4) Back");
+    print("4) View All");
+    print("5) Back");
     stdout.write("Enter Input: ");
     int choice = int.parse(stdin.readLineSync()!);
     choice == 1
@@ -271,8 +272,25 @@ class EmployeeManagement {
             : choice == 3
                 ? ViewEmployeeByDesignation()
                 : choice == 4
-                    ? MainMenu()
-                    : print("Invalid Choice");
+                    ? ViewAllEmployees()
+                    : choice == 5
+                        ? EmployeeManagementMenu()
+                        : print("Invalid Choice");
+  }
+
+  ViewAllEmployees() {
+    int emp = 1;
+    for (int i = 0; i < Employees.length; i++) {
+      print("==========Employee No: $emp ===========");
+      print("Employee ID: ${Employees[i]["id"]}");
+      print("Employee Name: ${Employees[i]["name"]}");
+      print("Employee Age: ${Employees[i]["age"]}");
+      print("Employee Salary: ${Employees[i]["salary"]}");
+      print("Employee Designation: ${Employees[i]["designation"]}");
+      print("Employee Password: ${Employees[i]["password"]}");
+      emp++;
+    }
+    EmployeeManagementMenu();
   }
 
   ViewEmployeeByID() {
@@ -340,7 +358,7 @@ class EmployeeManagement {
     if (!isFound) {
       print("Employee Not Found");
       print("Returning to Main Menu");
-      MainMenu();
+      EmployeeManagementMenu();
     }
   }
 }

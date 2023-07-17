@@ -24,6 +24,7 @@ void main() {
     "password": "Hammad0312"
   };
   Employees.add(Employee1);
+  Employees.add(Employee2);
   do {
     MainMenu();
   } while (true);
