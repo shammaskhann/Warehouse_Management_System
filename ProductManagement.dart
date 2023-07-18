@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'mian.dart';
+
 class ProductManagement {
   List Employees = [];
   List Products = [];
@@ -10,51 +12,75 @@ class ProductManagement {
     Map product1 = {
       "name": "Asus Rog Gtx 1080",
       "price": 45000,
-      "quantity": 50
+      "quantity": 50,
+      "Added By": "Admin"
     };
-    Map product2 = {"name": "Gigabyte 6500xt", "price": 35000, "quantity": 100};
+    Map product2 = {
+      "name": "Gigabyte 6500xt",
+      "price": 35000,
+      "quantity": 100,
+      "Added By": "Admin"
+    };
     Products.add(product1);
     Products.add(product2);
   }
   ProductManagementLogin() {
-    bool isLoginCredentialTrue = false;
-    bool isAccessable = false;
-    if (attempt < 4) {
-      //Login
-      print("========Inventory LOGIN========");
-      stdout.write("Enter ID: ");
-      int id = int.parse(stdin.readLineSync()!);
-      stdout.write("Enter Password: ");
-      String password = stdin.readLineSync()!;
-      attempt++;
-      //Only Manager and Supervisor can access the Product Management with their Passowrd and name set by ADMIN in List Employees
-      for (int i = 0; i < Employees.length; i++) {
-        if (Employees[i]["id"] == id && Employees[i]["password"] == password) {
-          isLoginCredentialTrue = true;
-          if (Employees[i]["designation"] == "Manager" ||
-              Employees[i]["designation"] == "Supervisor") {
-            isAccessable = true;
-            print("Login Successfull");
-            print("=> Welcome ${Employees[i]["name"]}");
-            ProductManagementMenu();
+    bool isLogin = false;
+    do {
+      bool isLoginCredentialTrue = false;
+      bool isAccessable = true;
+      if (attempt < 4) {
+        //Login
+        print("========Inventory LOGIN========");
+        stdout.write("Enter ID: ");
+        int id = int.parse(stdin.readLineSync()!);
+        stdout.write("Enter Password: ");
+        String password = stdin.readLineSync()!;
+        attempt++;
+        //Only Manager and Supervisor can access the Product Management with their Passowrd and name set by ADMIN in List Employees
+        for (int i = 0; i < Employees.length; i++) {
+          if (Employees[i]["id"] == id &&
+              Employees[i]["password"] == password) {
+            isLoginCredentialTrue = true;
+            if (Employees[i]["designation"] == "Manager" ||
+                Employees[i]["designation"] == "Supervisor") {
+              isAccessable = true;
+              print("Login Successfull");
+              print("=> Welcome ${Employees[i]["name"]}");
+              isLogin = true;
+              ProductManagementMenu(i);
+            } else {
+              isAccessable = false;
+            }
           }
         }
+      } else {
+        print("Too many attempts");
+        print("Exiting...");
+        exit(0);
       }
-    } else {
-      print("Too many attempts");
-      print("Exiting...");
-      exit(0);
-    }
-    if (isLoginCredentialTrue == false) {
-      print("Invalid Username or Password");
-    }
-    if (isAccessable == false) {
-      print("=> Note:");
-      print("Workers are not allowed to access this menu");
-    }
+      if (isLoginCredentialTrue == false) {
+        print("Invalid Username or Password");
+      }
+      if (isAccessable == false) {
+        print("=> Note:");
+        print("Workers are not allowed to access this menu");
+      }
+      stdout.write("Do you want to return to Main Menu (y/n): ");
+      String choice = stdin.readLineSync()!;
+      if (choice == "y" ||
+          choice == "Y" ||
+          choice == "yes" ||
+          choice == "Yes") {
+        isLogin = true;
+        MainMenu();
+      } else {
+        isLogin = false;
+      }
+    } while (isLogin == false);
   }
 
-  ProductManagementMenu() {
+  ProductManagementMenu(int index) {
     print("========PRODUCT MANAGEMENT Menu ========");
     print("1) Add Product to Warehouse");
     print("- - - - - - - - - - - - - -");
@@ -70,16 +96,35 @@ class ProductManagement {
     int choice = int.parse(stdin.readLineSync()!);
     switch (choice) {
       case 1:
-        AddProduct();
+        print("1) Add New Product");
+        print("2) Add Existing Product");
+        print("3) Back");
+        stdout.write("Enter Input: ");
+        int choice = int.parse(stdin.readLineSync()!);
+        switch (choice) {
+          case 1:
+            AddNewProduct(index);
+            break;
+          case 2:
+            AddExistingProduct(index);
+            break;
+          case 3:
+            ProductManagementMenu(index);
+            break;
+          default:
+            print("Invalid Choice");
+            ProductManagementMenu(index);
+            break;
+        }
         break;
       case 2:
-        ViewProduct();
+        ViewProduct(index);
         break;
       case 3:
-        UpdateProduct();
+        UpdateProduct(index);
         break;
       case 4:
-        DeleteProduct();
+        DeleteProduct(index);
         break;
       case 5:
         print("Logging Out");
@@ -90,27 +135,102 @@ class ProductManagement {
     }
   }
 
-  AddProduct() {
+  AddNewProduct(int index) {
+    String? category;
+    bool isValidCategory = false;
     print("========ADD PRODUCT========");
     stdout.write("Enter Product Name: ");
     String name = stdin.readLineSync()!;
+    do {
+      print("Select Item Catorgory");
+      print("1) Electronics");
+      print("2) Clothes");
+      print("3) Food");
+      stdout.write("Enter Input: ");
+      int choice1 = int.parse(stdin.readLineSync()!);
+      switch (choice1) {
+        case 1:
+          category = "Electronics";
+          isValidCategory = true;
+          break;
+        case 2:
+          category = "Clothes";
+          isValidCategory = true;
+          break;
+        case 3:
+          category = "Food";
+          isValidCategory = true;
+          break;
+        default:
+          print("Invalid Choice");
+          //AddNewProduct(index);
+          break;
+      }
+    } while (isValidCategory);
     stdout.write("Enter Product Price: ");
     int price = int.parse(stdin.readLineSync()!);
     stdout.write("Enter Product Quantity: ");
     int quantity = int.parse(stdin.readLineSync()!);
-    product = {"name": name, "price": price, "quantity": quantity};
+    if (name == null || price == null || quantity == null) {
+      print("Fields cannot be empty");
+      AddNewProduct(index);
+    }
+    product = {
+      "name": name,
+      "category": category,
+      "price": price,
+      "quantity": quantity,
+      "Added By": Employees[index]["name"]
+    };
     Products.add(product);
     print("Product Added Successfully");
     stdout.write("Do you want to add more products? (Y/N): ");
     String choice = stdin.readLineSync()!;
     if (choice == "Y" || choice == "y" || choice == "yes" || choice == "Yes") {
-      AddProduct();
+      AddNewProduct(index);
     } else {
-      ProductManagementMenu();
+      ProductManagementMenu(index);
     }
   }
 
-  ViewProduct() {
+  AddExistingProduct(int index) {
+    print("========ADD EXISTING PRODUCT========");
+    stdout.write("Enter Product Name: ");
+    String name = stdin.readLineSync()!;
+    stdout.write("Enter Product Quantity: ");
+    int quantity = int.parse(stdin.readLineSync()!);
+    if (name == null || quantity == null) {
+      print("Fields cannot be empty");
+      AddExistingProduct(index);
+    }
+    for (int i = 0; i < Products.length; i++) {
+      if (Products[i]["name"] == name) {
+        Products[i]["quantity"] += quantity;
+        Products[i]["Added By"] = Employees[index]["name"];
+        print("Product Added Successfully");
+        stdout.write("Do you want to add more products? (Y/N): ");
+        String choice = stdin.readLineSync()!;
+        if (choice == "Y" ||
+            choice == "y" ||
+            choice == "yes" ||
+            choice == "Yes") {
+          AddExistingProduct(index);
+        } else {
+          ProductManagementMenu(index);
+        }
+      }
+    }
+    print("Product Not Found");
+    stdout.write("Do you want to add more products? (Y/N): ");
+    String choice = stdin.readLineSync()!;
+    if (choice == "Y" || choice == "y" || choice == "yes" || choice == "Yes") {
+      AddExistingProduct(index);
+    } else {
+      ProductManagementMenu(index);
+    }
+  }
+
+  ViewProduct(int index) {
     print("========VIEW PRODUCT========");
     for (int i = 0; i < Products.length; i++) {
       print("============================");
@@ -118,15 +238,20 @@ class ProductManagement {
       print("- - - - - - - - - - - - - -");
       print("Name: ${Products[i]["name"]}");
       print("- - - - - - - - - - - - - -");
+      print("Category: ${Products[i]["category"]}");
+      print("- - - - - - - - - - - - - -");
       print("Price: ${Products[i]["price"]}");
       print("- - - - - - - - - - - - - -");
       print("Quantity: ${Products[i]["quantity"]}");
       print("====================================");
     }
-    ProductManagementMenu();
+    print("Press Enter to Continue");
+    stdin.readLineSync();
+    ProductManagementMenu(index);
   }
 
-  UpdateProduct() {
+  UpdateProduct(int index) {
+    String? newCategory;
     print("========UPDATE PRODUCT========");
     stdout.write("Enter Product Name: ");
     String name = stdin.readLineSync()!;
@@ -136,12 +261,15 @@ class ProductManagement {
         print("======UPDATE MENU=======");
         print("1) Update Name");
         print("- - - - - - - - - - - - - -");
-        print("2) Update Price");
+        print("2) Update Category");
         print("- - - - - - - - - - - - - -");
-        print("3) Update Quantity");
+        print("3) Update Price");
         print("- - - - - - - - - - - - - -");
-        print("4) Update All");
+        print("4) Update Quantity");
         print("- - - - - - - - - - - - - -");
+        print("5) Update All");
+        print("- - - - - - - - - - - - - -");
+        print("6) Return to Menu");
         stdout.write("Enter Choice: ");
         int choice = int.parse(stdin.readLineSync()!);
         print("- - - - - - - - - - - - - -");
@@ -153,18 +281,53 @@ class ProductManagement {
             print("Product Name Updated Successfully");
             break;
           case 2:
+            bool isValidCategory = false;
+
+            do {
+              print("Select Item Catorgory");
+              print("1) Electronics");
+              print("2) Clothes");
+              print("3) Food");
+              stdout.write("Enter Input: ");
+              int choice1 = int.parse(stdin.readLineSync()!);
+              switch (choice1) {
+                case 1:
+                  newCategory = "Electronics";
+                  isValidCategory = true;
+                  break;
+                case 2:
+                  newCategory = "Clothes";
+                  isValidCategory = true;
+                  break;
+                case 3:
+                  newCategory = "Food";
+                  isValidCategory = true;
+                  break;
+                default:
+                  print("Invalid Choice");
+                  //AddNewProduct(index);
+                  break;
+              }
+              if (isValidCategory == false) {
+                print("Select Valid Category");
+              }
+            } while (isValidCategory == true);
+            Products[i]["category"] = newCategory;
+            print("Product Category Updated Successfully");
+            break;
+          case 3:
             stdout.write("Enter New Price: ");
             int newPrice = int.parse(stdin.readLineSync()!);
             Products[i]["price"] = newPrice;
             print("Product Price Updated Successfully");
             break;
-          case 3:
+          case 4:
             stdout.write("Enter New Quantity: ");
             int newQuantity = int.parse(stdin.readLineSync()!);
             Products[i]["quantity"] = newQuantity;
             print("Product Quantity Updated Successfully");
             break;
-          case 4:
+          case 5:
             stdout.write("Enter New Name: ");
             String newName = stdin.readLineSync()!;
             stdout.write("Enter New Price: ");
@@ -174,7 +337,12 @@ class ProductManagement {
             Products[i]["name"] = newName;
             Products[i]["price"] = newPrice;
             Products[i]["quantity"] = newQuantity;
+            Products[i]["Added By"] = Employees[index]["name"];
             print("Product Updated Successfully");
+            break;
+          case 6:
+            print("Returning to Product Management Menu");
+            ProductManagementMenu(index);
             break;
           default:
             print("Invalid Choice");
@@ -182,11 +350,13 @@ class ProductManagement {
         }
       } else {
         print("Product Not Found");
+        print("Returning to Product Management Menu");
+        ProductManagementMenu(index);
       }
     }
   }
 
-  DeleteProduct() {
+  DeleteProduct(int index) {
     print("========DELETE PRODUCT========");
     stdout.write("Enter Product Name: ");
     String name = stdin.readLineSync()!;
@@ -203,6 +373,7 @@ class ProductManagement {
           print("Product Deleted Successfully");
         } else {
           print("Returning to Product Management Menu");
+          ProductManagementMenu(index);
         }
       } else {
         print("Product Not Found");

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'mian.dart';
+
 class EmployeeManagement {
   int attempt = 0;
   List Employees = [];
@@ -10,31 +12,6 @@ class EmployeeManagement {
   }
   List getEmployees() {
     return this.Employees;
-  }
-
-  MainMenu() //lOGIN MENU
-  {
-    print("========WAREHOUSE MANAGEMENT SYSTEM========");
-    print("1) Employee Management"); //Admin
-    print("- - - - - - - - - - - -");
-    print("2) Product Management");
-    print("- - - - - - - - - - - -");
-    print("3) Quit");
-    print("- - - - - - - - - - - -");
-    stdout.write("Enter Input: ");
-    int choice = int.parse(stdin.readLineSync()!);
-    if (choice == 1) {
-      EmployeeManagementLogin(); //Admin
-    } else if (choice == 2) {
-      //ProductManagement();
-    } else if (choice == 3) {
-      exit(0);
-    } else {
-      print("- - - - - - - - - - - -");
-      print("Invalid Choice");
-      print("- - - - - - - - - - - -");
-      MainMenu();
-    }
   }
 
   EmployeeManagementLogin() //ADMIN LOGIN + CRUD Menu

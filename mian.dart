@@ -3,7 +3,6 @@ import 'dart:io';
 import 'EmployeeManagement.dart';
 import 'ProductManagement.dart';
 
-int attempt = 0;
 List Employees = []; //List will be used to store all the employees(Maps)
 Map Employee = {};
 void main() {
