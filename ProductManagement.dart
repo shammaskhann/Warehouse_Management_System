@@ -11,12 +11,14 @@ class ProductManagement {
     this.Employees = Employees; // initializing the some products for testing
     Map product1 = {
       "name": "Asus Rog Gtx 1080",
+      "category": "Electronics",
       "price": 45000,
       "quantity": 50,
       "Added By": "Admin"
     };
     Map product2 = {
       "name": "Gigabyte 6500xt",
+      "category": "Electronics",
       "price": 35000,
       "quantity": 100,
       "Added By": "Admin"
@@ -232,6 +234,151 @@ class ProductManagement {
 
   ViewProduct(int index) {
     print("========VIEW PRODUCT========");
+    print("1) View By Category");
+    print("- - - - - - - - - - - ");
+    print("2) View By Price Range");
+    print("- - - - - - - - - - - ");
+    print("3) View All Products");
+    print("- - - - - - - - - - - ");
+    print("4) Back");
+    print("- - - - - - - - - - - ");
+    stdout.write("Enter Input: ");
+    int choice = int.parse(stdin.readLineSync()!);
+    print("- - - - - - - - - - - ");
+    switch (choice) {
+      case 1:
+        ViewByCategory(index);
+        break;
+      case 2:
+        ViewByPriceRange(index);
+        break;
+      case 3:
+        ViewAllProducts(index);
+        break;
+      case 4:
+        ProductManagementMenu(index);
+        break;
+      default:
+        print("Invalid Choice");
+        ViewProduct(index);
+        break;
+    }
+  }
+
+  ViewByPriceRange(int index) {
+    print("========VIEW BY PRICE RANGE========");
+    stdout.write("Enter Minimum Price: ");
+    int minPrice = int.parse(stdin.readLineSync()!);
+    stdout.write("Enter Maximum Price: ");
+    int maxPrice = int.parse(stdin.readLineSync()!);
+    if (minPrice == null || maxPrice == null) {
+      print("Fields cannot be empty");
+      ViewByPriceRange(index);
+    }
+    for (int i = 0; i < Products.length; i++) {
+      if (Products[i]["price"] >= minPrice &&
+          Products[i]["price"] <= maxPrice) {
+        print("============================");
+        print("Product ${i + 1}");
+        print("Name: ${Products[i]["name"]}");
+        print("Category: ${Products[i]["category"]}");
+        print("Price: ${Products[i]["price"]}");
+        print("Quantity: ${Products[i]["quantity"]}");
+        print("Added By: ${Products[i]["Added By"]}");
+        print("============================");
+      }
+    }
+    stdout.write("Do you want to view more products? (Y/N): ");
+    String choice = stdin.readLineSync()!;
+    if (choice == "Y" || choice == "y" || choice == "yes" || choice == "Yes") {
+      ViewByPriceRange(index);
+    } else {
+      ViewProduct(index);
+    }
+  }
+
+  ViewByCategory(int index) {
+    print("========VIEW BY CATEGORY========");
+    print("1) Electronics");
+    print("- - - - - - - - - - - - - -");
+    print("2) Clothes");
+    print("- - - - - - - - - - - - - -");
+    print("3) Food");
+    print("- - - - - - - - - - - - - -");
+    print("4) Back");
+    print("- - - - - - - - - - - - - -");
+    stdout.write("Enter Input: ");
+    int choice = int.parse(stdin.readLineSync()!);
+    print("- - - - - - - - - - - - - -");
+    switch (choice) {
+      case 1:
+        for (int i = 0; i < Products.length; i++) {
+          if (Products[i]["category"] == "Electronics") {
+            print("============================");
+            print("Product ${i + 1}");
+            print("- - - - - - - - - - - - - -");
+            print("Name: ${Products[i]["name"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Category: ${Products[i]["category"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Price: ${Products[i]["price"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Quantity: ${Products[i]["quantity"]}");
+            print("====================================");
+          }
+        }
+        print("Press Enter to Continue");
+        stdin.readLineSync();
+        ProductManagementMenu(index);
+        break;
+      case 2:
+        for (int i = 0; i < Products.length; i++) {
+          if (Products[i]["category"] == "Clothes") {
+            print("============================");
+            print("Product ${i + 1}");
+            print("- - - - - - - - - - - - - -");
+            print("Name: ${Products[i]["name"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Category: ${Products[i]["category"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Price: ${Products[i]["price"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Quantity: ${Products[i]["quantity"]}");
+            print("====================================");
+          }
+        }
+        print("Press Enter to Continue");
+        stdin.readLineSync();
+        ProductManagementMenu(index);
+        break;
+      case 3:
+        for (int i = 0; i < Products.length; i++) {
+          if (Products[i]["category"] == "Food") {
+            print("============================");
+            print("Product ${i + 1}");
+            print("- - - - - - - - - - - - - -");
+            print("Name: ${Products[i]["name"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Category: ${Products[i]["category"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Price: ${Products[i]["price"]}");
+            print("- - - - - - - - - - - - - -");
+            print("Quantity: ${Products[i]["quantity"]}");
+            print("====================================");
+          }
+        }
+        print("Press Enter to Continue");
+        stdin.readLineSync();
+        ProductManagementMenu(index);
+        break;
+      default:
+        print("Invalid Choice");
+        ProductManagementMenu(index);
+        break;
+    }
+  }
+
+  ViewAllProducts(int index) {
     for (int i = 0; i < Products.length; i++) {
       print("============================");
       print("Product ${i + 1}");
