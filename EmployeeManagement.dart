@@ -144,36 +144,94 @@ class EmployeeManagement {
   }
 
   UpdateEmployee() {
-    print("Enter Employee Name");
-    String name = stdin.readLineSync()!;
+    print("Enter Employee ID");
+    int id = int.parse(stdin.readLineSync()!);
     for (int i = 0; i < Employees.length; i++) {
-      if (Employees[i]["name"] == name) {
-        print("Enter Employee Name");
-        String name = stdin.readLineSync()!;
-        print("Enter Employee Age");
-        int age = int.parse(stdin.readLineSync()!);
-        print("Enter Employee Salary");
-        double salary = double.parse(stdin.readLineSync()!);
-        print("Enter Employee Designation");
-        String designation = stdin.readLineSync()!;
-        print("Enter Employee Password (Must be 8 characters long)");
-        String password = stdin.readLineSync()!;
-        if (password.length == 8) {
-          print("Password Set Successfully");
-        } else {
-          print("Password Must be 8 characters long");
-          AddEmployee();
+      if (Employees[i]["id"] == id) {
+        print("Employee Found");
+        print("==========UPDATE MENU==========");
+        print("1) Update Name");
+        print("- - - - - - - - - - - -");
+        print("2) Update Age");
+        print("- - - - - - - - - - - -");
+        print("3) Update Salary");
+        print("- - - - - - - - - - - -");
+        print("4) Update Designation");
+        print("- - - - - - - - - - - -");
+        print("5) Update Password");
+        print("- - - - - - - - - - - -");
+        print("6) Back");
+        print("===============================");
+        stdout.write("Enter Input: ");
+        int choice = int.parse(stdin.readLineSync()!);
+        switch (choice) {
+          case 1:
+            print("Enter New Name");
+            String name = stdin.readLineSync()!;
+            Employees[i]["name"] = name;
+            print("Name Updated Successfully");
+            UpdateEmployee();
+            break;
+          case 2:
+            print("Enter New Age");
+            int age = int.parse(stdin.readLineSync()!);
+            Employees[i]["age"] = age;
+            print("Age Updated Successfully");
+            UpdateEmployee();
+            break;
+          case 3:
+            print("Enter New Salary");
+            double salary = double.parse(stdin.readLineSync()!);
+            Employees[i]["salary"] = salary;
+            print("Salary Updated Successfully");
+            UpdateEmployee();
+            break;
+          case 4:
+            bool isDesignated = false;
+            String? designation;
+            do {
+              print("Select Employee Designation");
+              print("1) Manager");
+              print("2) Supervisor");
+              print("3) Worker");
+              int choice = int.parse(stdin.readLineSync()!);
+              switch (choice) {
+                case 1:
+                  designation = "Manager";
+                  isDesignated = true;
+                  break;
+                case 2:
+                  designation = "Supervisor";
+                  isDesignated = true;
+                  break;
+                case 3:
+                  designation = "Worker";
+                  isDesignated = true;
+                  break;
+                default:
+                  print("Invalid Choice");
+                  break;
+              }
+            } while (!isDesignated);
+            Employees[i]["designation"] = designation;
+            print("Designation Updated Successfully");
+            UpdateEmployee();
+            break;
+          case 5:
+            print("Enter New Password");
+            String password = stdin.readLineSync()!;
+            Employees[i]["password"] = password;
+            print("Password Updated Successfully");
+            UpdateEmployee();
+            break;
+          case 6:
+            EmployeeManagementMenu();
+            break;
+          default:
+            print("Invalid Choice");
+            UpdateEmployee();
+            break;
         }
-        Employee = {
-          "name": name,
-          "age": age,
-          "salary": salary,
-          "designation": designation,
-          "password": password
-        };
-        Employees[i] = Employee;
-        print("Employee Updated Successfully");
-        EmployeeManagementMenu();
       }
     }
     print("Employee Not Found");
@@ -183,7 +241,9 @@ class EmployeeManagement {
   DeleteEmployee() {
     print("==========Delete Employee===========");
     print("1) Delete by ID");
+    print("- - - - - - - - - - - -");
     print("2) Delete by Name");
+    print("- - - - - - - - - - - -");
     print("3) Back");
     int choice = int.parse(stdin.readLineSync()!);
     choice == 1
@@ -236,10 +296,15 @@ class EmployeeManagement {
   ViewEmployee() {
     print("==========View Employee===========");
     print("1) View by ID");
+    print("- - - - - - - - - - - -");
     print("2) View by Name");
+    print("- - - - - - - - - - - -");
     print("3) View by Designation");
+    print("- - - - - - - - - - - -");
     print("4) View All");
+    print("- - - - - - - - - - - -");
     print("5) Back");
+    print("- - - - - - - - - - - -");
     stdout.write("Enter Input: ");
     int choice = int.parse(stdin.readLineSync()!);
     choice == 1
