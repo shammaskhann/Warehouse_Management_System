@@ -23,9 +23,50 @@ class ProductManagement {
       "quantity": 100,
       "Added By": "Admin"
     };
+    Map product3 = {
+      "name": "Dell Inspiron 15",
+      "category": "Electronics",
+      "price": 150000,
+      "quantity": 10,
+      "Added By": "Admin"
+    };
+    Map product4 = {
+      "name": "HP Pavilion 15",
+      "category": "Electronics",
+      "price": 120000,
+      "quantity": 10,
+      "Added By": "Admin"
+    };
+    Map product5 = {
+      "name": "White Shirt",
+      "category": "Clothes",
+      "price": 1000,
+      "quantity": 10,
+      "Added By": "Admin"
+    };
+    Map product6 = {
+      "name": "Black Shirt",
+      "category": "Clothes",
+      "price": 1000,
+      "quantity": 10,
+      "Added By": "Admin"
+    };
+    Map product7 = {
+      "name": "Fruits",
+      "category": "Food",
+      "price": 100,
+      "quantity": 100,
+      "Added By": "Admin"
+    };
     Products.add(product1);
     Products.add(product2);
+    Products.add(product3);
+    Products.add(product4);
+    Products.add(product5);
+    Products.add(product6);
+    Products.add(product7);
   }
+
   ProductManagementLogin() {
     bool isLogin = false;
     do {
@@ -266,6 +307,7 @@ class ProductManagement {
   }
 
   ViewByPriceRange(int index) {
+    bool isFound = false;
     print("========VIEW BY PRICE RANGE========");
     stdout.write("Enter Minimum Price: ");
     int minPrice = int.parse(stdin.readLineSync()!);
@@ -278,6 +320,7 @@ class ProductManagement {
     for (int i = 0; i < Products.length; i++) {
       if (Products[i]["price"] >= minPrice &&
           Products[i]["price"] <= maxPrice) {
+        isFound = true;
         print("============================");
         print("Product ${i + 1}");
         print("Name: ${Products[i]["name"]}");
@@ -287,6 +330,9 @@ class ProductManagement {
         print("Added By: ${Products[i]["Added By"]}");
         print("============================");
       }
+    }
+    if (!isFound) {
+      print("No Products Found");
     }
     stdout.write("Do you want to view more products? (Y/N): ");
     String choice = stdin.readLineSync()!;
