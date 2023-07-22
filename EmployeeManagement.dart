@@ -97,7 +97,7 @@ class EmployeeManagement {
     print("Enter Employee Salary");
     double salary = double.parse(stdin.readLineSync()!);
     bool isDesignated = false;
-    String? designation;
+    late String designation;
     do {
       print("Select Employee Designation");
       print("1) Manager");
@@ -279,7 +279,7 @@ class EmployeeManagement {
     print("Enter Employee Name");
     String name = stdin.readLineSync()!;
     for (int i = 0; i < Employees.length; i++) {
-      if (Employees[i]["name"] == name) {
+      if (Employees[i]["name"].toLowerCase() == name.toLowerCase()) {
         Employees.removeAt(i);
         print("Employee Deleted Successfully");
         isFound = true;
@@ -337,18 +337,18 @@ class EmployeeManagement {
 
   ViewEmployeeByID() {
     bool isFound = false;
-    print("Enter Employee ID");
+    stdout.write("Enter Employee ID: ");
     int id = int.parse(stdin.readLineSync()!);
     for (int i = 0; i < Employees.length; i++) {
       if (Employees[i]["id"] == id) {
-        print("Employee ID: ${Employees[i]["id"]}");
+        print("==> Employee ID: ${Employees[i]["id"]} <==");
         print("Employee Name: ${Employees[i]["name"]}");
         print("Employee Age: ${Employees[i]["age"]}");
         print("Employee Salary: ${Employees[i]["salary"]}");
         print("Employee Designation: ${Employees[i]["designation"]}");
         print("Employee Password: ${Employees[i]["password"]}");
         isFound = true;
-        MainMenu();
+        EmployeeManagementMenu();
       }
     }
     if (!isFound) {
@@ -363,15 +363,15 @@ class EmployeeManagement {
     print("Enter Employee Name");
     String name = stdin.readLineSync()!;
     for (int i = 0; i < Employees.length; i++) {
-      if (Employees[i]["name"] == name) {
-        print("Employee ID: ${Employees[i]["id"]}");
+      if (Employees[i]["name"].toLowerCase() == name.toLowerCase()) {
+        print("==> Employee ID: ${Employees[i]["id"]} <==");
         print("Employee Name: ${Employees[i]["name"]}");
         print("Employee Age: ${Employees[i]["age"]}");
         print("Employee Salary: ${Employees[i]["salary"]}");
         print("Employee Designation: ${Employees[i]["designation"]}");
         print("Employee Password: ${Employees[i]["password"]}");
         isFound = true;
-        MainMenu();
+        EmployeeManagementMenu();
       }
     }
     if (!isFound) {
@@ -387,14 +387,14 @@ class EmployeeManagement {
     String designation = stdin.readLineSync()!;
     for (int i = 0; i < Employees.length; i++) {
       if (Employees[i]["designation"] == designation) {
-        print("Employee ID: ${Employees[i]["id"]}");
+        print("==> Employee ID: ${Employees[i]["id"]} <==");
         print("Employee Name: ${Employees[i]["name"]}");
         print("Employee Age: ${Employees[i]["age"]}");
         print("Employee Salary: ${Employees[i]["salary"]}");
         print("Employee Designation: ${Employees[i]["designation"]}");
         print("Employee Password: ${Employees[i]["password"]}");
         isFound = true;
-        MainMenu();
+        EmployeeManagementMenu();
       }
     }
     if (!isFound) {

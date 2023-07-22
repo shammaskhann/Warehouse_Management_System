@@ -124,58 +124,63 @@ class ProductManagement {
   }
 
   ProductManagementMenu(int index) {
-    print("========PRODUCT MANAGEMENT Menu ========");
-    print("1) Add Product to Warehouse");
-    print("- - - - - - - - - - - - - -");
-    print("2) View Product in Warehouse");
-    print("- - - - - - - - - - - - - -");
-    print("3) Update Product in Warehouse");
-    print("- - - - - - - - - - - - - -");
-    print("4) Delete Product in Warehouse");
-    print("- - - - - - - - - - - - - -");
-    print("5) LOG OUT");
-    print("- - - - - - - - - - - - - -");
-    stdout.write("Enter Input: ");
-    int choice = int.parse(stdin.readLineSync()!);
-    switch (choice) {
-      case 1:
-        print("1) Add New Product");
-        print("2) Add Existing Product");
-        print("3) Back");
-        stdout.write("Enter Input: ");
-        int choice = int.parse(stdin.readLineSync()!);
-        switch (choice) {
-          case 1:
-            AddNewProduct(index);
-            break;
-          case 2:
-            AddExistingProduct(index);
-            break;
-          case 3:
-            ProductManagementMenu(index);
-            break;
-          default:
-            print("Invalid Choice");
-            ProductManagementMenu(index);
-            break;
-        }
-        break;
-      case 2:
-        ViewProduct(index);
-        break;
-      case 3:
-        UpdateProduct(index);
-        break;
-      case 4:
-        DeleteProduct(index);
-        break;
-      case 5:
-        print("Logging Out");
-        break;
-      default:
-        print("Invalid Choice");
-        break;
-    }
+    bool isLogout = false;
+    do {
+      print("========PRODUCT MANAGEMENT Menu ========");
+      print("1) Add Product to Warehouse");
+      print("- - - - - - - - - - - - - -");
+      print("2) View Product in Warehouse");
+      print("- - - - - - - - - - - - - -");
+      print("3) Update Product in Warehouse");
+      print("- - - - - - - - - - - - - -");
+      print("4) Delete Product in Warehouse");
+      print("- - - - - - - - - - - - - -");
+      print("5) LOG OUT");
+      print("- - - - - - - - - - - - - -");
+      stdout.write("Enter Input: ");
+      int choice = int.parse(stdin.readLineSync()!);
+      switch (choice) {
+        case 1:
+          print("1) Add New Product");
+          print("2) Add Existing Product");
+          print("3) Back");
+          stdout.write("Enter Input: ");
+          int choice = int.parse(stdin.readLineSync()!);
+          switch (choice) {
+            case 1:
+              AddNewProduct(index);
+              break;
+            case 2:
+              AddExistingProduct(index);
+              break;
+            case 3:
+              ProductManagementMenu(index);
+              break;
+            default:
+              print("Invalid Choice");
+              ProductManagementMenu(index);
+              break;
+          }
+          break;
+        case 2:
+          ViewProduct(index);
+          break;
+        case 3:
+          UpdateProduct(index);
+          break;
+        case 4:
+          DeleteProduct(index);
+          break;
+        case 5:
+          print("Logging Out");
+          isLogout = true;
+          MainMenu();
+          break;
+        default:
+          print("Invalid Choice");
+          break;
+      }
+    } while (isLogout);
   }
 
   AddNewProduct(int index) {
@@ -444,12 +449,14 @@ class ProductManagement {
   }
 
   UpdateProduct(int index) {
-    String? newCategory;
+    bool isFound = false;
+    late String newCategory;
     print("========UPDATE PRODUCT========");
     stdout.write("Enter Product Name: ");
     String name = stdin.readLineSync()!;
     for (int i = 0; i < Products.length; i++) {
-      if (Products[i]["name"] == name) {
+      if (Products[i]["name"].toLowerCase() == name.toLowerCase()) {
+        isFound = true;
         print("Product Found");
         print("======UPDATE MENU=======");
         print("1) Update Name");
@@ -475,7 +482,6 @@ class ProductManagement {
             break;
           case 2:
             bool isValidCategory = false;
-
             do {
               print("Select Item Catorgory");
               print("1) Electronics");
@@ -541,21 +547,25 @@ class ProductManagement {
             print("Invalid Choice");
             break;
         }
-      } else {
-        print("Product Not Found");
-        print("Returning to Product Management Menu");
-        ProductManagementMenu(index);
       }
+    }
+    if (isFound == false) {
+      print("Product Not Found");
+      print("Returning to Product Management Menu");
+      ProductManagementMenu(index);
     }
   }
 
   DeleteProduct(int index) {
+    bool isFound = false;
     print("========DELETE PRODUCT========");
     stdout.write("Enter Product Name: ");
     String name = stdin.readLineSync()!;
     for (int i = 0; i < Products.length; i++) {
-      if (Products[i]["name"] == name) {
+      if (Products[i]["name"].toLowerCase() == name.toLowerCase()) {
+        isFound = true;
         print("Product Found");
+
         print("Are you sure you want to delete this product? (Y/N): ");
         String choice = stdin.readLineSync()!;
         if (choice == "Y" ||
@@ -568,8 +578,11 @@ class ProductManagement {
           print("Returning to Product Management Menu");
           ProductManagementMenu(index);
         }
-      } else {
+      }
+      if (isFound == false) {
         print("Product Not Found");
+        print("Returning to Product Management Menu");
+        ProductManagementMenu(index);
       }
     }
   }
