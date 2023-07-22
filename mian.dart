@@ -7,7 +7,7 @@ List Employees = []; //List will be used to store all the employees(Maps)
 Map Employee = {};
 void main() {
   Map Employee1 = {
-    "id": 1001,
+    "id": 419,
     "name": "Shammas Khan",
     "age": 19,
     "salary": 5000,
@@ -15,7 +15,7 @@ void main() {
     "password": "Shammas0312"
   };
   Map Employee2 = {
-    "id": 1002,
+    "id": 420,
     "name": "Hammad Khan",
     "age": 19,
     "salary": 5000,
@@ -29,12 +29,11 @@ void main() {
   } while (true);
 }
 
-MainMenu() //lOGIN MENU
-{
+MainMenu() {
   print("========WAREHOUSE MANAGEMENT SYSTEM========");
-  print("1) Employee Management"); //Admin
+  print("1) Manage Employes");
   print("- - - - - - - - - - - -");
-  print("2) Product Management");
+  print("2) Manage Products");
   print("- - - - - - - - - - - -");
   print("3) Quit");
   print("- - - - - - - - - - - -");

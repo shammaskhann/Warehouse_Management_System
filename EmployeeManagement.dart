@@ -6,9 +6,15 @@ class EmployeeManagement {
   int attempt = 0;
   List Employees = [];
   Map Employee = {};
+  Map Admin = {};
+  List Admins = [];
 
   EmployeeManagement(List Employees) {
     this.Employees = Employees;
+    Map Admin = {"username": "admin1", "password": "password1"};
+    Map Admin1 = {"username": "admin2", "password": "password2"};
+    Admins.add(Admin);
+    Admins.add(Admin1);
   }
   List getEmployees() {
     return this.Employees;
@@ -16,6 +22,7 @@ class EmployeeManagement {
 
   EmployeeManagementLogin() //ADMIN LOGIN + CRUD Menu
   {
+    bool isLogin = false;
     if (attempt < 4) {
       //Login
       print("========ADMIN LOGIN========");
@@ -26,11 +33,17 @@ class EmployeeManagement {
       String password = stdin.readLineSync()!;
       print("- - - - - - - - - - - -");
       attempt++;
-      if (username == "admin" && password == "admin") {
-        print("Login Successfull");
-        print("Welcome Admin");
-        this.EmployeeManagementMenu();
-      } else {
+      //if (username == "admin" && password == "admin") {
+      for (int i = 0; i < Admins.length; i++) {
+        if (Admins[i]["username"] == username &&
+            Admins[i]["password"] == password) {
+          print("Login Successfull");
+          print("Welcome Admin");
+          EmployeeManagementMenu();
+        }
+      }
+
+      if (isLogin == false) {
         print("Invalid Username or Password");
         print("Returning to Main Menu");
         print("- - - - - - - - - - - -");
@@ -94,7 +107,7 @@ class EmployeeManagement {
         MainMenu();
       }
     }
-    print("Enter Employee Salary");
+    stdout.write("Enter Employee Salary: ");
     double salary = double.parse(stdin.readLineSync()!);
     bool isDesignated = false;
     late String designation;
@@ -122,7 +135,7 @@ class EmployeeManagement {
           break;
       }
     } while (!isDesignated);
-    print("Enter Employee Password (Must be 8 characters long)");
+    stdout.write("Enter Employee Password: ");
     String password = stdin.readLineSync()!;
     Employee = {
       "id": id,
@@ -144,7 +157,7 @@ class EmployeeManagement {
   }
 
   UpdateEmployee() {
-    print("Enter Employee ID");
+    stdout.write("Enter Employee ID: ");
     int id = int.parse(stdin.readLineSync()!);
     for (int i = 0; i < Employees.length; i++) {
       if (Employees[i]["id"] == id) {
@@ -166,31 +179,31 @@ class EmployeeManagement {
         int choice = int.parse(stdin.readLineSync()!);
         switch (choice) {
           case 1:
-            print("Enter New Name");
+            stdout.write("Enter New Name: ");
             String name = stdin.readLineSync()!;
             Employees[i]["name"] = name;
             print("Name Updated Successfully");
-            UpdateEmployee();
+            EmployeeManagementMenu();
             break;
           case 2:
-            print("Enter New Age");
+            stdout.write("Enter New Age: ");
             int age = int.parse(stdin.readLineSync()!);
             Employees[i]["age"] = age;
             print("Age Updated Successfully");
-            UpdateEmployee();
+            EmployeeManagementMenu();
             break;
           case 3:
-            print("Enter New Salary");
+            stdout.write("Enter New Salary: ");
             double salary = double.parse(stdin.readLineSync()!);
             Employees[i]["salary"] = salary;
             print("Salary Updated Successfully");
-            UpdateEmployee();
+            EmployeeManagementMenu();
             break;
           case 4:
             bool isDesignated = false;
             String? designation;
             do {
-              print("Select Employee Designation");
+              print(" =>Select Employee Designation <=");
               print("1) Manager");
               print("2) Supervisor");
               print("3) Worker");
@@ -215,14 +228,14 @@ class EmployeeManagement {
             } while (!isDesignated);
             Employees[i]["designation"] = designation;
             print("Designation Updated Successfully");
-            UpdateEmployee();
+            EmployeeManagementMenu();
             break;
           case 5:
-            print("Enter New Password");
+            stdout.write("Enter New Password: ");
             String password = stdin.readLineSync()!;
             Employees[i]["password"] = password;
             print("Password Updated Successfully");
-            UpdateEmployee();
+            EmployeeManagementMenu();
             break;
           case 6:
             EmployeeManagementMenu();
@@ -383,8 +396,32 @@ class EmployeeManagement {
 
   ViewEmployeeByDesignation() {
     bool isFound = false;
-    print("Enter Employee Designation");
-    String designation = stdin.readLineSync()!;
+    bool isDesignated = false;
+    late String designation;
+    do {
+      print("Select Employee Designation");
+      print("1) Manager");
+      print("2) Supervisor");
+      print("3) Worker");
+      int choice = int.parse(stdin.readLineSync()!);
+      switch (choice) {
+        case 1:
+          designation = "Manager";
+          isDesignated = true;
+          break;
+        case 2:
+          designation = "Supervisor";
+          isDesignated = true;
+          break;
+        case 3:
+          designation = "Worker";
+          isDesignated = true;
+          break;
+        default:
+          print("Invalid Choice");
+          break;
+      }
+    } while (!isDesignated);
     for (int i = 0; i < Employees.length; i++) {
       if (Employees[i]["designation"] == designation) {
         print("==> Employee ID: ${Employees[i]["id"]} <==");
