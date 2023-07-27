@@ -109,17 +109,6 @@ class ProductManagement {
         print("=> Note:");
         print("Workers are not allowed to access this menu");
       }
-      stdout.write("Do you want to return to Main Menu (y/n): ");
-      String choice = stdin.readLineSync()!;
-      if (choice == "y" ||
-          choice == "Y" ||
-          choice == "yes" ||
-          choice == "Yes") {
-        isLogin = true;
-        MainMenu();
-      } else {
-        isLogin = false;
-      }
     } while (isLogin == false);
   }
 

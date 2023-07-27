@@ -17,8 +17,8 @@ void main() {
   Map Employee2 = {
     "id": 420,
     "name": "Hammad Khan",
-    "age": 19,
-    "salary": 5000,
+    "age": 24,
+    "salary": 70000,
     "designation": "Worker",
     "password": "Hammad0312"
   };

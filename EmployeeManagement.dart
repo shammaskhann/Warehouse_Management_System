@@ -33,7 +33,6 @@ class EmployeeManagement {
       String password = stdin.readLineSync()!;
       print("- - - - - - - - - - - -");
       attempt++;
-      //if (username == "admin" && password == "admin") {
       for (int i = 0; i < Admins.length; i++) {
         if (Admins[i]["username"] == username &&
             Admins[i]["password"] == password) {
@@ -47,7 +46,7 @@ class EmployeeManagement {
         print("Invalid Username or Password");
         print("Returning to Main Menu");
         print("- - - - - - - - - - - -");
-        MainMenu();
+        EmployeeManagementLogin();
       }
     } else {
       print("Too many attempts");
